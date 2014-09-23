@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/img">
+        <file alias="bg1">slide_2-2.png</file>
+        <file>circle-grey.png</file>
+    </qresource>
+</RCC>
