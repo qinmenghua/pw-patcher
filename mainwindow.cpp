@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QtGui>
+#include <QFileDialog>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -60,4 +61,21 @@ void MainWindow::dropEvent(QDropEvent *event)
 void MainWindow::on_btnExit_clicked()
 {
     QApplication::quit();
+}
+
+void MainWindow::on_btnPatch_clicked()
+{
+    QFileDialog dlg(this);
+    dlg.setAcceptMode(QFileDialog::AcceptOpen);
+    dlg.setFileMode(QFileDialog::ExistingFile);
+    dlg.setNameFilter("PW Scarlet Patch (*.sawer *.sempack)");
+
+    if (dlg.exec())
+    {
+        QString fileName = dlg.selectedFiles().at(0);
+
+        QMessageBox m;
+        m.setText(fileName);
+        m.exec();
+    }
 }

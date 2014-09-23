@@ -27,6 +27,8 @@ private slots:
 
     void on_btnExit_clicked();
 
+    void on_btnPatch_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPoint dragPosition;

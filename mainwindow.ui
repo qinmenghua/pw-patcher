@@ -57,6 +57,14 @@ QPushButton:disabled {
       <bold>true</bold>
      </font>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">:hover {
+	background-image: url(:/img/btn/warning);
+}</string>
+    </property>
     <property name="text">
      <string>PATCH</string>
     </property>
