@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>551</width>
+    <width>616</width>
     <height>553</height>
    </rect>
   </property>
@@ -17,7 +17,11 @@
    <string notr="true">QPushButton {
 	background-color: transparent;
 	border: none;
-	background-image: url(:/img/circle-grey.png);
+	background-image: url(:/img/btn/normal);
+}
+
+QPushButton:disabled {
+	background-image: url(:/img/btn/disable);
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -34,14 +38,14 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resource.qrc">:/img/bg1</pixmap>
+     <pixmap resource="resource.qrc">:/img/main</pixmap>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btnPatch">
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>240</y>
+      <y>180</y>
       <width>64</width>
       <height>64</height>
      </rect>
@@ -57,11 +61,11 @@
      <string>PATCH</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="btnStart">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>170</y>
+      <x>510</x>
+      <y>340</y>
       <width>64</width>
       <height>64</height>
      </rect>
@@ -73,18 +77,23 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">:hover {
+	background-image: url(:/img/btn/success);
+}</string>
     </property>
     <property name="text">
      <string>START</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="btnExit">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>160</y>
+      <x>80</x>
+      <y>350</y>
       <width>64</width>
       <height>64</height>
      </rect>
@@ -96,15 +105,23 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">:hover {
+	background-image: url(:/img/btn/danger);
+}</string>
+    </property>
     <property name="text">
      <string>EXIT</string>
     </property>
    </widget>
-   <widget class="AnimatedLabel" name="label">
+   <widget class="AnimatedLabel" name="animation">
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>170</y>
+      <y>115</y>
       <width>192</width>
       <height>192</height>
      </rect>

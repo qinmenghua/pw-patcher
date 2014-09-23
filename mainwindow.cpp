@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
 
-    ui->label->initialize("D:\\0m\\dl\\sprite\\water_005.png", 1);
+    ui->animation->initialize(":/img/animation/progress", 15, 3, 14);
+    ui->animation->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -35,4 +36,9 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         move(event->globalPos() - dragPosition);
         event->accept();
     }
+}
+
+void MainWindow::on_btnExit_clicked()
+{
+    QApplication::quit();
 }

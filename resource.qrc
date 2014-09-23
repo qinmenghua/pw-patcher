@@ -1,6 +1,15 @@
 <RCC>
     <qresource prefix="/img">
-        <file alias="bg1">slide_2-2.png</file>
-        <file>circle-grey.png</file>
+        <file alias="main">img/slide_2-2.png</file>
+    </qresource>
+    <qresource prefix="/img/btn">
+        <file alias="normal">img/btn/blue.png</file>
+        <file alias="success">img/btn/green.png</file>
+        <file alias="disable">img/btn/grey.png</file>
+        <file alias="warning">img/btn/orange.png</file>
+        <file alias="danger">img/btn/red.png</file>
+    </qresource>
+    <qresource prefix="/img/animation">
+        <file alias="progress">img/animation/cast_001.png</file>
     </qresource>
 </RCC>

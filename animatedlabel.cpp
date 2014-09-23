@@ -21,34 +21,45 @@ void AnimatedLabel::initialize(const QString &imagePath, const int fps, const in
     img.load(imagePath);
     int count = (img.height() * img.width()) / (width * height);
 
-    for (int i = 1; i <= count; i++)
+    for (int i = 0; i < count; i++)
     {
-        // TODO
-        int x = ((i - 1) - (qFloor(i / 6) * 5)) * pixmapSize.height();
-        int y = qFloor((i - 1) / 5) * pixmapSize.width();
+        int x = (i % 5) * pixmapSize.height();
+        int y = qFloor(i / 5) * pixmapSize.width();
         QImage sprite = img.copy(x, y, pixmapSize.width(), pixmapSize.height());
         pixmaps.push_back(QPixmap::fromImage(sprite));
     }
 
     connect(&timer, &QTimer::timeout, this, &AnimatedLabel::switchPixmap);
-    timer.start(1000 / fps);
-    switchPixmap();
+    timer.setInterval(1000 / fps);
+    //switchPixmap();
 }
 
 void AnimatedLabel::start()
 {
+    currentIndex = 0;
+    isPlaying = true;
 
+    timer.start();
 }
 
 void AnimatedLabel::stop()
 {
-
+    isPlaying = false;
 }
 
 void AnimatedLabel::switchPixmap()
 {
-    if (currentIndex >= pixmaps.length())
-        currentIndex = 0;
+    if (isPlaying)
+    {
+        if (endLoopIndex > 0 && currentIndex > endLoopIndex)
+            currentIndex = startLoopIndex;
+        else if (currentIndex >= pixmaps.length())
+            currentIndex = 0;
+    }
+    else if (currentIndex >= pixmaps.length())
+    {
+        timer.stop();
+    }
 
     setPixmap(pixmaps.at(currentIndex++));
 }

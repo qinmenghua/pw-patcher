@@ -21,6 +21,10 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
+private slots:
+
+    void on_btnExit_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPoint dragPosition;
