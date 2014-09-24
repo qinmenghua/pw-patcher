@@ -83,7 +83,13 @@ void MainWindow::on_btnExit_clicked()
 
 void MainWindow::on_btnStart_clicked()
 {
+    QStringList args;
+    args << "startbypatcher";
 
+    QProcess::startDetached("..\\element\\elementclient.exe", args, "..\\element\\");
+    QThread::sleep(3);
+
+    QApplication::quit();
 }
 
 void MainWindow::on_btnPatch_clicked()
