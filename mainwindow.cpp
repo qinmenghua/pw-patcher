@@ -78,7 +78,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 void MainWindow::on_btnExit_clicked()
 {
-    QApplication::quit();
+    QApplication::exit(0);
 }
 
 void MainWindow::on_btnStart_clicked()
@@ -130,19 +130,46 @@ void MainWindow::applyPatch(const QString &fileName)
 
     future->setFuture(QtConcurrent::run([=](const QString &fileName) {
         QStringList args;
-        args << fileName;
 
-        QProcess notepad;
-        notepad.start("notepad.exe", args);
-        notepad.waitForFinished();
+        args << "x" << fileName << "-y" << "-o..\\";
+        QProcess::execute("bin\\sza.exe", args);
 
-        // TODO: call sza.exe to extract into directory
+        args.clear(); args << "*.pck.b64.files";
+        QDir elementDir("..\\element");
+        QStringList packs = elementDir.entryList(args, QDir::Dirs);
 
-        // TODO: check applicable *.pck
-        // TODO:   merge *.pck and *.pkx
-        // TODO:   call spck.exe to merge *.pck
-        // TODO:   split *.pck into *.pkx
+        for (int i = 0; i < packs.size(); i++)
+        {
+            QString source = packs.at(i).toLocal8Bit().constData();
+            QString dest = source.left(source.indexOf('.'));
+            QString pck = dest + ".pck";
+            QString pkx = dest + ".pkx";
 
+            QString originalWorkingDir = QDir::current().dirName();
+            QDir::setCurrent("..\\element");
+
+            if (QFile::exists(pkx))
+            {
+                // TODO: merge *.pck and *.pkx
+                args.clear(); args << "/c" << "copy" << "/b" << pck+"+"+pkx << pck;
+                QProcess::execute("cmd.exe", args);
+            }
+
+            // TODO: merge source folder into *.pck
+            args.clear(); args << "-pw" << "-ap" << source;
+            QProcess::execute("bin\\sPCK.exe", args);
+
+            // TODO: split *.pck into *.pkx
+            args.clear(); args << pck << "2147483648";
+            QProcess::execute("bin\\split.exe", args);
+            QFile::rename(pck + ".1", pkx);
+
+            // TODO: delete source folder recursive
+            QDir(source).removeRecursively();
+
+
+            QDir::setCurrent(originalWorkingDir);
+        }
 
     }, fileName));
 
