@@ -23,6 +23,7 @@ public:
 
     void start();
     void stop();
+    bool isPlaying();
 
 private slots:
     void switchPixmap();
@@ -34,7 +35,7 @@ private:
     int endLoopIndex;
     QTimer timer;
     QSize pixmapSize;
-    bool isPlaying;
+    bool _isPlaying;
 };
 
 #endif // ANIMATEDLABEL_H

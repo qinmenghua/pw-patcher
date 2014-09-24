@@ -5,9 +5,10 @@
 AnimatedLabel::AnimatedLabel(QWidget *parent) :
     QLabel(parent),
     currentIndex(0),
-    isPlaying(false)
+    _isPlaying(false)
 {
-
+    // hide when not playing
+    setVisible(false);
 }
 
 void AnimatedLabel::initialize(const QString &imagePath, const int fps, const int startLoopIndex, const int endLoopIndex, const int width, const int height)
@@ -31,25 +32,30 @@ void AnimatedLabel::initialize(const QString &imagePath, const int fps, const in
 
     connect(&timer, &QTimer::timeout, this, &AnimatedLabel::switchPixmap);
     timer.setInterval(1000 / fps);
-    //switchPixmap();
 }
 
 void AnimatedLabel::start()
 {
     currentIndex = 0;
-    isPlaying = true;
+    _isPlaying = true;
 
+    setVisible(true);
     timer.start();
 }
 
 void AnimatedLabel::stop()
 {
-    isPlaying = false;
+    _isPlaying = false;
+}
+
+bool AnimatedLabel::isPlaying()
+{
+    return _isPlaying;
 }
 
 void AnimatedLabel::switchPixmap()
 {
-    if (isPlaying)
+    if (_isPlaying)
     {
         if (endLoopIndex > 0 && currentIndex > endLoopIndex)
             currentIndex = startLoopIndex;
@@ -58,7 +64,9 @@ void AnimatedLabel::switchPixmap()
     }
     else if (currentIndex >= pixmaps.length())
     {
+        setVisible(false);
         timer.stop();
+        return;
     }
 
     setPixmap(pixmaps.at(currentIndex++));
