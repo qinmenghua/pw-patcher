@@ -2,8 +2,11 @@
 #include "ui_mainwindow.h"
 
 #include <QtGui>
+#include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QFutureWatcher>
+#include <QtConcurrent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -48,14 +51,29 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
+    event->acceptProposedAction();
+
     if (event->mimeData()->urls().count() != 1)
     {
-        event->acceptProposedAction();
-
-        QMessageBox m;
-        m.setText(event->mimeData()->text());
-        m.exec();
+        QMessageBox::warning(this, "ERROR", "Sabar kk, file patch nya satu - persatu yah...");
+        return;
     }
+
+    QUrl url = event->mimeData()->urls().at(0);
+    if (!url.isLocalFile())
+    {
+        QMessageBox::critical(this, "NON LOCAL FILE", "URL IS NON LOCAL FILE");
+        return;
+    }
+
+    QString path = QDir::toNativeSeparators(url.toLocalFile());
+    if (!path.endsWith(".sempack") && !path.endsWith(".sawer"))
+    {
+        QMessageBox::critical(this, "INVALID FORMAT", "Sepertinya ini bukan file patch PWScarlet, deh");
+        return;
+    }
+
+    applyPatch(path);
 }
 
 void MainWindow::on_btnExit_clicked()
@@ -63,19 +81,64 @@ void MainWindow::on_btnExit_clicked()
     QApplication::quit();
 }
 
+void MainWindow::on_btnStart_clicked()
+{
+
+}
+
 void MainWindow::on_btnPatch_clicked()
 {
     QFileDialog dlg(this);
     dlg.setAcceptMode(QFileDialog::AcceptOpen);
     dlg.setFileMode(QFileDialog::ExistingFile);
-    dlg.setNameFilter("PW Scarlet Patch (*.sawer *.sempack)");
+    dlg.setNameFilter("PWScarlet Patch (*.sawer *.sempack)");
 
     if (dlg.exec())
     {
         QString fileName = dlg.selectedFiles().at(0);
-
-        QMessageBox m;
-        m.setText(fileName);
-        m.exec();
+        if (!fileName.endsWith(".sempack") && !fileName.endsWith(".sawer"))
+        {
+            QMessageBox::critical(this, "INVALID FORMAT", "Sepertinya ini bukan file patch PWScarlet, deh");
+            return;
+        }
+        applyPatch(fileName);
     }
+}
+
+void MainWindow::applyPatch(const QString &fileName)
+{
+    ui->btnPatch->setEnabled(false);
+    ui->btnStart->setEnabled(false);
+
+    ui->animation->start();
+
+    QFutureWatcher<void> *future = new QFutureWatcher<void>();
+    connect(future, &QFutureWatcher<void>::finished, [this,future]() {
+        ui->animation->stop();
+
+        ui->btnStart->setEnabled(true);
+        ui->btnPatch->setEnabled(true);
+
+        future->deleteLater();
+    });
+
+    future->setFuture(QtConcurrent::run([=](const QString &fileName) {
+        QStringList args;
+        args << fileName;
+
+        QProcess notepad;
+        notepad.start("notepad.exe", args);
+        notepad.waitForFinished();
+
+        // TODO: call sza.exe to extract into directory
+
+        // TODO: check applicable *.pck
+        // TODO:   merge *.pck and *.pkx
+        // TODO:   call spck.exe to merge *.pck
+        // TODO:   split *.pck into *.pkx
+
+
+    }, fileName));
+
+
 }

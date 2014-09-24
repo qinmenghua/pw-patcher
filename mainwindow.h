@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QProcess>
 
 #include "animatedlabel.h"
 
@@ -24,15 +25,15 @@ protected:
     void dropEvent(QDropEvent *event);
 
 private slots:
-
     void on_btnExit_clicked();
-
     void on_btnPatch_clicked();
+    void on_btnStart_clicked();
 
 private:
     Ui::MainWindow *ui;
     QPoint dragPosition;
 
+    void applyPatch(const QString &fileName);
 };
 
 #endif // MAINWINDOW_H

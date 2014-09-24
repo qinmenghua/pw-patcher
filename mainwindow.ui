@@ -128,7 +128,7 @@ QPushButton:disabled {
    <widget class="AnimatedLabel" name="animation">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>227</x>
       <y>115</y>
       <width>192</width>
       <height>192</height>

@@ -4,12 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = patcher
 TEMPLATE = app
+
+CONFIG += c++11
 
 
 SOURCES += main.cpp\
