@@ -34,6 +34,8 @@ private:
     QPoint dragPosition;
 
     void applyPatch(const QString &fileName);
+
+    QProcess *refTask;
 };
 
 #endif // MAINWINDOW_H
