@@ -16,11 +16,9 @@ CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    fs.cpp \
     animatedlabel.cpp
 
 HEADERS  += mainwindow.h \
-    fs.h \
     animatedlabel.h
 
 FORMS    += mainwindow.ui
