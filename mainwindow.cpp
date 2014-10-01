@@ -178,7 +178,7 @@ void MainWindow::applyPatch(const QString &fileName)
             task.waitForFinished(-1);
 
             // TODO: split *.pck into *.pkx
-            if (QFile(pck).size() >= 2147483392)
+            if (QFile(pck).size() > 2147483392)
             {
                 args.clear(); args << pck << "2147483392";
                 task.start("bin\\split.exe", args);
