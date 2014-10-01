@@ -16,12 +16,15 @@ CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    animatedlabel.cpp
+    animatedlabel.cpp \
+    createpatch.cpp
 
 HEADERS  += mainwindow.h \
-    animatedlabel.h
+    animatedlabel.h \
+    createpatch.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    createpatch.ui
 
 RESOURCES += \
     resource.qrc
