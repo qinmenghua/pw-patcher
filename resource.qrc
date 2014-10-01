@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/img">
         <file alias="main">img/slide_2-2.png</file>
+        <file>img/logo.png</file>
     </qresource>
     <qresource prefix="/img/btn">
         <file alias="normal">img/btn/blue.png</file>
