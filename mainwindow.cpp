@@ -23,6 +23,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->animation->initialize(":/img/animation/progress", 15, 3, 14);
     ui->animation->setVisible(false);
+
+    if (!QFile::exists("..\\element"))
+    {
+        QMessageBox::critical(0, "INVALID PATH", "Sepertinya kamu salah extract, deh.\nKok gak ada folder 'element'?!!");
+        exit(EXIT_FAILURE);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -57,21 +63,21 @@ void MainWindow::dropEvent(QDropEvent *event)
 
     if (event->mimeData()->urls().count() != 1)
     {
-        QMessageBox::warning(this, "ERROR", "Sabar kk, file patch nya satu - persatu yah...");
+        QMessageBox::warning(0, "ERROR", "Sabar kk, file patch nya satu - persatu yah...");
         return;
     }
 
     QUrl url = event->mimeData()->urls().at(0);
     if (!url.isLocalFile())
     {
-        QMessageBox::critical(this, "NON LOCAL FILE", "URL IS NON LOCAL FILE");
+        QMessageBox::critical(0, "NON LOCAL FILE", "URL IS NON LOCAL FILE");
         return;
     }
 
     QString path = QDir::toNativeSeparators(url.toLocalFile());
     if (!path.endsWith(".sempack"))
     {
-        QMessageBox::critical(this, "INVALID FORMAT", "Sepertinya ini bukan file patch PWScarlet, deh");
+        QMessageBox::critical(0, "INVALID FORMAT", "Sepertinya ini bukan file patch PWScarlet, deh");
         return;
     }
 
@@ -109,7 +115,7 @@ void MainWindow::on_btnPatch_clicked()
         QString fileName = dlg.selectedFiles().at(0);
         if (!fileName.endsWith(".sempack"))
         {
-            QMessageBox::critical(this, "INVALID FORMAT", "Sepertinya ini bukan file patch PWScarlet, deh");
+            QMessageBox::critical(0, "INVALID FORMAT", "Sepertinya ini bukan file patch PWScarlet, deh");
             return;
         }
         applyPatch(fileName);
@@ -140,7 +146,7 @@ void MainWindow::applyPatch(const QString &fileName)
         QProcess task; refTask = &task;
 
         args << "x" << fileName << "-y" << "-o..\\";
-        task.start("bin\\sza.exe", args);
+        task.start("bin\\7za.exe", args);
         task.waitForFinished(-1);
 
         args.clear(); args << "*.pck.b64.files";
