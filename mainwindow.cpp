@@ -172,12 +172,14 @@ void MainWindow::applyPatch(const QString &fileName)
             task.waitForFinished(-1);
 
             // TODO: split *.pck into *.pkx
-            if (QFile(pck).size() >= 2147483648)
+            if (QFile(pck).size() >= 2147483392)
             {
-                args.clear(); args << pck << "2147483648";
+                args.clear(); args << pck << "2147483392";
                 task.start("bin\\split.exe", args);
                 task.waitForFinished(-1);
-                QFile::remove(pck + ".1");
+
+                QFile::remove(pck);
+                QFile::rename(pck + ".1", pck);
                 QFile::rename(pck + ".2", pkx);
             }
 
